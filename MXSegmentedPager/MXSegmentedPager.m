@@ -60,6 +60,7 @@
             NSAttributedString * selectedText = [[NSAttributedString alloc] initWithString:titleObject.title attributes:titleObject.selectedStateAttributes];
             [segment setAttributedTitle:normalText forState:UIControlStateNormal];
             [segment setAttributedTitle:selectedText forState:UIControlStateSelected];
+            [segment setWidth:selectedText.size.width];
         } else if ([self.dataSource respondsToSelector:@selector(segmentedPager:attributedTitleForSectionAtIndex:)]) {
             NSAttributedString *title = [self.dataSource segmentedPager:self attributedTitleForSectionAtIndex:index];
             [segment setAttributedTitle:title forState:UIControlStateNormal];
