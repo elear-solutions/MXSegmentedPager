@@ -84,6 +84,8 @@
     }
 
     [self.segmentedControl setNeedsDisplay];
+    [self.segmentedControl setNeedsLayout];
+    [self.segmentedControl layoutIfNeeded];
     
     [self.pager reloadData];
 }
