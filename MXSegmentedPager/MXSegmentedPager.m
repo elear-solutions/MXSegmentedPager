@@ -24,6 +24,9 @@
 #import <MXParallaxHeader/MXScrollView.h>
 #import "MXSegmentedPager.h"
 
+@implementation MXAttributedTitleObject
+@end
+
 @interface MXSegmentedPager () <MXScrollViewDelegate, MXPagerViewDelegate, MXPagerViewDataSource>
 @property (nonatomic, strong) MXScrollView          *contentView;
 @property (nonatomic, strong) MXSegmentedControl    *segmentedControl;
@@ -51,7 +54,13 @@
 
         MXSegment *segment = [self.segmentedControl newSegment];
 
-        if ([self.dataSource respondsToSelector:@selector(segmentedPager:attributedTitleForSectionAtIndex:)]) {
+        if ([self.dataSource respondsToSelector:@selector(segmentedPager:titleObjectForSectionAtIndex:)]) {
+            MXAttributedTitleObject * titleObject = [self.dataSource segmentedPager:self titleObjectForSectionAtIndex:index];
+            NSAttributedString * normalText = [[NSAttributedString alloc] initWithString:titleObject.title attributes:titleObject.normalStateAttributes];
+            NSAttributedString * selectedText = [[NSAttributedString alloc] initWithString:titleObject.title attributes:titleObject.selectedStateAttributes];
+            [segment setAttributedTitle:normalText forState:UIControlStateNormal];
+            [segment setAttributedTitle:selectedText forState:UIControlStateSelected];
+        } else if ([self.dataSource respondsToSelector:@selector(segmentedPager:attributedTitleForSectionAtIndex:)]) {
             NSAttributedString *title = [self.dataSource segmentedPager:self attributedTitleForSectionAtIndex:index];
             [segment setAttributedTitle:title forState:UIControlStateNormal];
         } else if ([self.dataSource respondsToSelector:@selector(segmentedPager:titleForSectionAtIndex:)]) {

@@ -43,6 +43,15 @@ typedef NS_ENUM(NSInteger, MXSegmentedControlPosition) {
 @class MXSegmentedPager;
 
 /**
+ The object which contains text attributes for a segment title
+ */
+@interface MXAttributedTitleObject: NSObject
+@property (nonnull, copy) NSString * title;
+@property (nonnull, copy) NSDictionary<NSAttributedStringKey, id> * normalStateAttributes;
+@property (nonnull, copy) NSDictionary<NSAttributedStringKey, id> * selectedStateAttributes;
+@end
+
+/**
  The delegate of a MXSegmentedPager object may adopt the MXSegmentedPagerDelegate protocol. Optional methods of the protocol allow the delegate to manage selections.
  */
 @protocol MXSegmentedPagerDelegate <NSObject>
@@ -179,6 +188,16 @@ typedef NS_ENUM(NSInteger, MXSegmentedControlPosition) {
  @return The NSAttributedString title of the page in segmented-pager.
  */
 - (NSAttributedString *)segmentedPager:(MXSegmentedPager *)segmentedPager attributedTitleForSectionAtIndex:(NSInteger)index;
+
+/**
+ Asks the data source for a title to assign to a particular page of the segmented-pager. The title object will be used depending on the HMSegmentedControlType you have choosen.
+
+ @param segmentedPager A segmented-pager object requesting the title object.
+ @param index          An index number identifying a page in segmented-pager.
+
+ @return The MXAttributedTitleObject title object contains text attributes (for normal and selected states) of title of the page in segmented-pager.
+ */
+- (MXAttributedTitleObject *)segmentedPager:(MXSegmentedPager *)segmentedPager titleObjectForSectionAtIndex:(NSInteger)index;
 
 /**
  Asks the data source for a image to assign to a particular page of the segmented-pager. The image will be used depending on the HMSegmentedControlType you have choosen.

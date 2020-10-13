@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MXSegmentedPager"
-  s.version          = "4.0.0"
+  s.version          = "4.0.1"
   s.summary          = "Segmented pager view with Parallax header."
   s.description      = <<-DESC
                        MXSegmentedPager combines [MXPagerView](https://github.com/maxep/MXPagerView) with [MXSegmentedControl](https://github.com/maxep/MXSegmentedControl) to control the page selection.
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'MXSegmentedPager/*.{m,h}'
   s.public_header_files = ["MXSegmentedPager/*.h"]
-  s.dependency 'MXSegmentedControl', '~> 1.1'
+  s.dependency 'MXSegmentedControl', '~> 1.1.1', :git => 'https://github.com/elear-solutions/MXSegmentedControl.git'
   s.dependency 'MXPagerView', '~> 0.2'
   s.dependency 'MXParallaxHeader', '~> 1.0'
   
