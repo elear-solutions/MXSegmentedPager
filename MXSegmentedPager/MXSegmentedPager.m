@@ -30,6 +30,7 @@
 @interface MXSegmentedPager () <MXScrollViewDelegate, MXPagerViewDelegate, MXPagerViewDataSource>
 @property (nonatomic, strong) MXScrollView          *contentView;
 @property (nonatomic, strong) MXSegmentedControl    *segmentedControl;
+@property (nonatomic, strong, readwrite) UIView     *sceneContainer;
 @property (nonatomic, strong) MXPagerView           *pager;
 @end
 

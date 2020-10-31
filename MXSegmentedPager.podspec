@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MXSegmentedPager"
-  s.version          = "4.0.5"
+  s.version          = "4.0.6"
   s.summary          = "Segmented pager view with Parallax header."
   s.description      = <<-DESC
                        MXSegmentedPager combines [MXPagerView](https://github.com/maxep/MXPagerView) with [MXSegmentedControl](https://github.com/maxep/MXSegmentedControl) to control the page selection.

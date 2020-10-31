@@ -244,7 +244,7 @@ typedef NS_ENUM(NSInteger, MXSegmentedControlPosition) {
 /**
   The container view for scenes (in fact, it is empty view without any functionality)
  */
-@property (nonatomic, strong) UIView *sceneContainer;
+@property (nonatomic, strong, readonly) UIView *sceneContainer;
 
 /**
  The segmented control position option.
