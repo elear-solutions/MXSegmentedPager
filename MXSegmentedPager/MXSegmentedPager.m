@@ -30,11 +30,13 @@
 @interface MXSegmentedPager () <MXScrollViewDelegate, MXPagerViewDelegate, MXPagerViewDataSource>
 @property (nonatomic, strong) MXScrollView          *contentView;
 @property (nonatomic, strong) MXSegmentedControl    *segmentedControl;
+@property (nonatomic, strong) UIView                *sceneContainer;
 @property (nonatomic, strong) MXPagerView           *pager;
 @end
 
 @implementation MXSegmentedPager {
-    CGFloat     _controlHeight;
+    CGFloat     _segmentControlHeight;
+    CGFloat     _fullControlHeight;
     NSInteger   _count;
 }
 
@@ -45,9 +47,11 @@
     NSAssert(_count > 0, @"Number of pages in MXSegmentedPager must be greater than 0");
     
     //Gets the segmented control height
-    _controlHeight = 44.f;
+    _segmentControlHeight = 44.f;
+    _fullControlHeight = 106;
     if ([self.delegate respondsToSelector:@selector(heightForSegmentedControlInSegmentedPager:)]) {
-        _controlHeight = [self.delegate heightForSegmentedControlInSegmentedPager:self];
+        _segmentControlHeight = [self.delegate heightForSegmentedControlInSegmentedPager:self];
+        _fullControlHeight = _segmentControlHeight + 62;
     }
     
     for (NSInteger index = 0; index < _count; index++) {
@@ -131,20 +135,30 @@
     
     if (self.segmentedControlPosition == MXSegmentedControlPositionBottom) {
         frame.origin.y  = frame.size.height;
-        frame.origin.y -= _controlHeight;
+        frame.origin.y -= _fullControlHeight;
         frame.origin.y -= self.segmentedControlEdgeInsets.bottom;
         if (@available(iOS 11.0, *)) frame.origin.y -= self.safeAreaInsets.bottom;
     } else if(self.segmentedControlPosition == MXSegmentedControlPositionTopOver) {
-        frame.origin.y = -_controlHeight;
+        frame.origin.y = -_fullControlHeight;
     } else {
         frame.origin.y = self.segmentedControlEdgeInsets.top;
     }
 
     frame.size.width -= self.segmentedControlEdgeInsets.left;
     frame.size.width -= self.segmentedControlEdgeInsets.right;
-    frame.size.height = _controlHeight;
+    frame.size.height = _segmentControlHeight;
     
     self.segmentedControl.frame = frame;
+    [self layoutSceneContainer];
+}
+
+- (void)layoutSceneContainer {
+    CGRect frame = CGRectZero;
+    frame.origin.x = 0;
+    frame.size.width = self.bounds.size.width;
+    frame.size.height = _fullControlHeight - _segmentControlHeight;
+    frame.origin.y = CGRectGetMaxY(self.segmentedControl.frame);
+    self.sceneContainer.frame = frame;
 }
 
 - (void)layoutPager {
@@ -153,13 +167,13 @@
     frame.origin = CGPointZero;
     
     if (self.segmentedControlPosition == MXSegmentedControlPositionTop) {
-        frame.origin.y  = _controlHeight;
+        frame.origin.y  = _fullControlHeight;
         frame.origin.y += self.segmentedControlEdgeInsets.top;
         frame.origin.y += self.segmentedControlEdgeInsets.bottom;
     }
     
     if (self.segmentedControlPosition != MXSegmentedControlPositionTopOver) {
-        frame.size.height -= _controlHeight;
+        frame.size.height -= _fullControlHeight;
         frame.size.height -= self.segmentedControlEdgeInsets.top;
         frame.size.height -= self.segmentedControlEdgeInsets.bottom;
         if (@available(iOS 11.0, *)) frame.size.height -= self.safeAreaInsets.bottom;
@@ -200,6 +214,14 @@
         [self.contentView addSubview:_pager];
     }
     return _pager;
+}
+
+- (UIView *)sceneContainer {
+  if (!_sceneContainer) {
+    _sceneContainer = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:_sceneContainer];
+  }
+  return _sceneContainer;
 }
 
 - (UIView *)selectedPage {
